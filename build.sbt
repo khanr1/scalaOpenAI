@@ -47,10 +47,16 @@ lazy val client =
         Libraries.circeParser.value
       )
     )
+
 lazy val main =
   project
     .in(file("04-openAI-main"))
     .dependsOn(client % Cctt)
+    .settings(
+      libraryDependencies ++= Seq(
+        Libraries.ciris
+      )
+    )
 
 lazy val testDependencies = Seq(
   testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
