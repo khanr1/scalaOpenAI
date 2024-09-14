@@ -43,6 +43,7 @@ lazy val client =
     .settings(
       libraryDependencies ++= Seq(
         Libraries.htt4sCirce.value,
+        Libraries.htt4sDsl.value,
         Libraries.htt4sEmberClient.value,
         Libraries.circeParser.value
       )

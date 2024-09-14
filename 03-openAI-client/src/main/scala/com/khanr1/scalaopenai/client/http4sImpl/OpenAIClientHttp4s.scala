@@ -15,7 +15,21 @@ import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.headers.{Authorization, `Content-Type`}
 import fs2.text
 
+/** An OpenAI client implemented with Http4s for making chat completion requests.
+  */
 object OpenAIClientHttp4s {
+
+  /** Creates an instance of the `OpenAIClient` using Http4s.
+    *
+    * @param client
+    *   The Http4s client to perform HTTP requests.
+    * @param apiKey
+    *   The API key used for authorization with OpenAI.
+    * @tparam F
+    *   The effect type (e.g., IO, Future).
+    * @return
+    *   An instance of `OpenAIClient` that performs chat completions.
+    */
   def make[F[_]: cats.effect.Concurrent](client: Client[F], apiKey: String): OpenAIClient[F] =
     new OpenAIClient[F] with Http4sClientDsl[F] {
 

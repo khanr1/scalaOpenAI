@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Scala library provides a simple and effective way to interact with the OpenAI API, utilizing the latest features and best practices for asynchronous and resource-efficient programming. The library supports streaming responses and integrates seamlessly with the OpenAI API to deliver chat completions.
+This Scala library provides a simple and effective way to interact with the OpenAI API. The library supports streaming responses and integrates seamlessly with the OpenAI API to deliver chat completions.
 
 ## Why Use `Resource`?
 
