@@ -4,6 +4,7 @@ package http4sImpl
 
 import com.khanr1.scalaopenai.chat.ChatCompletionResponse
 import com.khanr1.scalaopenai.chat.Message
+import utils.*
 
 import com.khanr1.scalaopenai.chat.ChatCompletionRequest
 import io.circe.syntax.*
@@ -48,8 +49,8 @@ object OpenAIClientHttp4s {
         )
 
         client.stream(request).flatMap { response =>
-          response.body
-            .through(fs2.text.utf8.decode)
+          response.bodyText
+            // .through(fs2.text.utf8.decode)
             .flatMap { text =>
               // Split the response on newlines in case multiple `data:` chunks are in the same line
               Stream.emits(text.split("\n").toSeq) // Convert to a stream of individual lines
@@ -57,23 +58,7 @@ object OpenAIClientHttp4s {
             .map(_.replace("data: ", ""))
             .filterNot(line => line.isEmpty || line == "[DONE]")
             .flatMap { text =>
-              parse(text) match {
-                case Right(json) =>
-                  json.as[ChatCompletionResponse] match {
-                    case Right(chatCompletion) =>
-                      Stream.emit(chatCompletion) // Emit the parsed response
-                    case Left(decodingFailure) =>
-                      print(text)
-                      Stream.raiseError[F](
-                        new Exception(
-                          s"Decoding failure for : ${decodingFailure.getMessage} "
-                        )
-                      )
-                  }
-                case Left(parseFailure) =>
-                  Stream
-                    .raiseError[F](new Exception(s"Parsing failure: ${parseFailure.getMessage}"))
-              }
+              decodeText[F, ChatCompletionResponse](text)
             }
 
         }

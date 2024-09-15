@@ -12,7 +12,7 @@ object Main extends IOApp.Simple {
     apiKey.flatMap { key =>
       OpenAI.make[IO](apiKey = key.apiKey).use { service =>
         service
-          .chatCompletion(List(Message(Roles.User, "Tell me a joke")))
+          .chatCompletion(List(Message(Roles.User, "Write a loremlisum text of 100 words")))
           .evalMap(response => IO.print(response.choices.map(_.delta.content.mkString).mkString))
           .compile
           .drain
