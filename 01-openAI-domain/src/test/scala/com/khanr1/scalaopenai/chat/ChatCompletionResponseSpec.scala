@@ -48,7 +48,7 @@ object ChatCompletionResponseSpec extends SimpleIOSuite {
       ),
       usage = Some(Usage(10, 15, 25))
     )
-    expect.same(response.getContent, "Hello")
+    expect.same(response.getReponseMessage, "Hello")
   }
 
   pureTest("should handle no content in getContent method") {
@@ -62,6 +62,6 @@ object ChatCompletionResponseSpec extends SimpleIOSuite {
       ),
       usage = Some(Usage(10, 15, 25))
     )
-    expect.same(response.getContent, "")
+    expect.same(response.getReponseMessage, "")
   }
 }

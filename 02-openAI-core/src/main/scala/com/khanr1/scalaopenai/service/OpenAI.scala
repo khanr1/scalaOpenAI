@@ -16,7 +16,7 @@ trait OpenAIService[F[_]] {
     * @return
     *   A stream of `ChatCompletionResponse` objects.
     */
-  def chatCompletion(messages: List[Message]): Stream[F, ChatCompletionResponse]
+  def chatCompletion(messages: List[Message]): Stream[F, OpenAIResponse]
 }
 
 object OpenAIService:
@@ -32,7 +32,7 @@ object OpenAIService:
   def make[F[_]: cats.effect.Concurrent](client: OpenAIClient[F]): OpenAIService[F] =
     new OpenAIService[F] {
 
-      override def chatCompletion(messages: List[Message]): Stream[F, ChatCompletionResponse] =
+      override def chatCompletion(messages: List[Message]): Stream[F, OpenAIResponse] =
         client.chatCompletion(messages)
 
     }

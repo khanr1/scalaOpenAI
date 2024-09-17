@@ -15,6 +15,8 @@ import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.headers.{Authorization, `Content-Type`}
 import fs2.text
+import org.http4s.Status
+import cats.MonadThrow
 
 /** An OpenAI client implemented with Http4s for making chat completion requests.
   */
@@ -31,11 +33,14 @@ object OpenAIClientHttp4s {
     * @return
     *   An instance of `OpenAIClient` that performs chat completions.
     */
-  def make[F[_]: cats.effect.Concurrent](client: Client[F], apiKey: String): OpenAIClient[F] =
+  def make[F[_]: cats.effect.Concurrent: MonadThrow](
+      client: Client[F],
+      apiKey: String
+  ): OpenAIClient[F] =
     new OpenAIClient[F] with Http4sClientDsl[F] {
 
       private val chatUri: Uri = Uri.unsafeFromString("https://api.openai.com/v1/chat/completions")
-      override def chatCompletion(messages: List[Message]): Stream[F, ChatCompletionResponse] =
+      override def chatCompletion(messages: List[Message]): Stream[F, OpenAIResponse] =
         val requestBody = ChatCompletionRequest(
           Models.GPT4o,
           messages,
@@ -49,18 +54,12 @@ object OpenAIClientHttp4s {
         )
 
         client.stream(request).flatMap { response =>
-          response.bodyText
-            // .through(fs2.text.utf8.decode)
-            .flatMap { text =>
-              // Split the response on newlines in case multiple `data:` chunks are in the same line
-              Stream.emits(text.split("\n").toSeq) // Convert to a stream of individual lines
-            }
-            .map(_.replace("data: ", ""))
-            .filterNot(line => line.isEmpty || line == "[DONE]")
-            .flatMap { text =>
-              decodeText[F, ChatCompletionResponse](text)
-            }
-
+          response.status match
+            case Status.Ok =>
+              response.bodyText.through(parseResponsePipe[F, ChatCompletionResponse])
+            case status =>
+              response.bodyText.through(parseResponsePipe[F, OpenAIErrorResponse])
         }
     }
+
 }

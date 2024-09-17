@@ -5,7 +5,7 @@ import io.circe.Decoder.Result
 /** Enumeration representing different OpenAI error. Each error can be mapped to its corresponding
   * string representation.
   */
-enum OpenAIErrors {
+enum OpenAIErrorResponse extends OpenAIResponse {
   case APIConnectionError
   case APITimeoutError
   case AuthenticationError
@@ -16,11 +16,13 @@ enum OpenAIErrors {
   case PermissionDeniedError
   case RateLimitError
   case UnprocessableEntityError
+
+  def getReponseMessage: String = this.toString()
 }
 
-object OpenAIErrors:
+object OpenAIErrorResponse:
   // Map associating error with their string representation.
-  val errorLookup: Map[OpenAIErrors, String] = Map(
+  val errorLookup: Map[OpenAIErrorResponse, String] = Map(
     APIConnectionError -> "api_connection_error",
     APITimeoutError -> "api_timeout_error",
     AuthenticationError -> "authentication_error",
@@ -36,18 +38,18 @@ object OpenAIErrors:
   /** Provides a Circe Encoder instance for `OpenAIErrors`, converting a error into its
     * corresponding JSON string.
     */
-  given Encoder[OpenAIErrors] = new Encoder[OpenAIErrors] {
+  given Encoder[OpenAIErrorResponse] = new Encoder[OpenAIErrorResponse] {
 
-    override def apply(a: OpenAIErrors): Json = Encoder.encodeString(errorLookup(a))
+    override def apply(a: OpenAIErrorResponse): Json = Encoder.encodeString(errorLookup(a))
 
   }
 
   /** Provides a Circe Decoder instance for `OpenAIErrors`, converting a Json into its corresponding
     * OpenAIErrors
     */
-  given Decoder[OpenAIErrors] = new Decoder[OpenAIErrors] {
+  given Decoder[OpenAIErrorResponse] = new Decoder[OpenAIErrorResponse] {
 
-    override def apply(c: HCursor): Result[OpenAIErrors] = for
+    override def apply(c: HCursor): Result[OpenAIErrorResponse] = for
       stringValue <- c.as[String]
       error <- errorLookup.map((k, v) => v -> k).get(stringValue) match
         case None =>

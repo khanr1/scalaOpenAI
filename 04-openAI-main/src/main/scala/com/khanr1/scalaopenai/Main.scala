@@ -12,8 +12,15 @@ object Main extends IOApp.Simple {
     apiKey.flatMap { key =>
       OpenAI.make[IO](apiKey = key.apiKey).use { service =>
         service
-          .chatCompletion(List(Message(Roles.User, "Write a loremlisum text of 100 words")))
-          .evalMap(response => IO.print(response.choices.map(_.delta.content.mkString).mkString))
+          .chatCompletion(
+            List(
+              Message(
+                Roles.User,
+                "Give the date and time and then Write a loremlisum text of 100 words"
+              )
+            )
+          )
+          .evalMap(response => IO.print(response.getReponseMessage))
           .compile
           .drain
       }
