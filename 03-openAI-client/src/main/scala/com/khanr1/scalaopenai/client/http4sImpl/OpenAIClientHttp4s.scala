@@ -58,7 +58,9 @@ object OpenAIClientHttp4s {
             case Status.Ok =>
               response.bodyText.through(parseResponsePipe[F, ChatCompletionResponse])
             case status =>
-              response.bodyText.through(parseResponsePipe[F, OpenAIErrorResponse])
+              response.bodyText
+                .through(parseResponsePipe[F, OpenAIErrorResponse])
+
         }
     }
 

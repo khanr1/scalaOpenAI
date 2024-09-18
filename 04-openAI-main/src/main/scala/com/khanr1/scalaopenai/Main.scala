@@ -20,7 +20,7 @@ object Main extends IOApp.Simple {
               )
             )
           )
-          .evalMap(response => IO.print(response.getReponseMessage))
+          .evalMap(response => IO.print(response.getResponseMessage))
           .compile
           .drain
       }

@@ -31,7 +31,7 @@ final case class ChatCompletionResponse(
     * @return
     *   A concatenated string of all choice contents.
     */
-  def getReponseMessage: String =
+  override def getResponseMessage: String =
     choices.flatMap(_.delta.content).mkString
 
 object ChatCompletionResponse:
