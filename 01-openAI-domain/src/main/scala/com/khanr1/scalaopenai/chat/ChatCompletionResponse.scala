@@ -35,5 +35,6 @@ final case class ChatCompletionResponse(
     choices.flatMap(_.delta.content).mkString
 
 object ChatCompletionResponse:
+  given Show[ChatCompletionResponse] = Show.fromToString
   given Decoder[ChatCompletionResponse] = Decoder.derived
   given Encoder[ChatCompletionResponse] = Encoder.derived
