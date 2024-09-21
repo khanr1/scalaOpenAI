@@ -12,4 +12,5 @@ trait OpenAIResponse {
     *   a String containing the response message.
     */
   def getResponseMessage: String
+
 }

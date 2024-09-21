@@ -21,5 +21,6 @@ final case class OpenAIErrorResponse(
     s"OpenAI Error: $message. Type: ${`type`}, Param: ${param.getOrElse("None")}, Code: ${code.getOrElse("None")}"
 
 object OpenAIErrorResponse:
+  given Show[OpenAIErrorResponse] = Show.fromToString
   given Encoder[OpenAIErrorResponse] = Encoder.derived
   given Decoder[OpenAIErrorResponse] = Decoder.derived
