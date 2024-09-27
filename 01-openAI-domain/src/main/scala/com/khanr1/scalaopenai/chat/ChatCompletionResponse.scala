@@ -23,7 +23,7 @@ final case class ChatCompletionResponse(
     model: Models,
     choices: List[Choice],
     usage: Option[Usage]
-):
+) extends OpenAIResponse:
 
   /** Extracts and concatenates the content of the choices in the response. If any choice's content
     * is None, it is ignored.
@@ -31,9 +31,10 @@ final case class ChatCompletionResponse(
     * @return
     *   A concatenated string of all choice contents.
     */
-  def getContent: String =
+  override def getResponseMessage: String =
     choices.flatMap(_.delta.content).mkString
 
 object ChatCompletionResponse:
+  given Show[ChatCompletionResponse] = Show.fromToString
   given Decoder[ChatCompletionResponse] = Decoder.derived
   given Encoder[ChatCompletionResponse] = Encoder.derived

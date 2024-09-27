@@ -15,7 +15,10 @@ object OpenAIErrorsSpec extends SimpleIOSuite {
   pureTest("should decode valid JSON string to APIConnectionError model") {
     val json = "\"api_connection_error\""
     val decoded = decode[OpenAIErrors](json)
-    expect(decoded.isRight) and expect.same(decoded.toOption.get, OpenAIErrors.APIConnectionError)
+    expect(decoded.isRight) and expect.same(
+      decoded.toOption.get,
+      OpenAIErrors.APIConnectionError
+    )
   }
 
 }

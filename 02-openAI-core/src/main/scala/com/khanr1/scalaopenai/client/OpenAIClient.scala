@@ -17,5 +17,5 @@ trait OpenAIClient[F[_]] {
     * @return
     *   A stream of `ChatCompletionResponse` objects.
     */
-  def chatCompletion(messages: List[Message]): Stream[F, ChatCompletionResponse]
+  def chatCompletion(messages: List[Message]): Stream[F, OpenAIResponse]
 }

@@ -23,6 +23,7 @@ final case class ChatCompletionRequest(
 }
 
 object ChatCompletionRequest:
+  given Show[ChatCompletionRequest] = Show.fromToString
   // Circe Encoder and Decoder for the ChatCompletionRequest case class
   given Encoder[ChatCompletionRequest] = Encoder.derived[ChatCompletionRequest]
   given Decoder[ChatCompletionRequest] = Decoder.derived[ChatCompletionRequest]

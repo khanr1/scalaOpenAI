@@ -26,3 +26,29 @@ The `Resource` type from the `cats-effect` library is used to manage resources i
 - **Streaming Responses**: Handle streaming responses from the API to process data as it arrives.
 - **Asynchronous Operations**: Use `cats-effect` to perform asynchronous operations efficiently.
 
+## Example usage
+```scala
+object Main extends IOApp.Simple {
+  def run: IO[Unit] = {
+    val apiKey = loadOpenAIConfig().load[IO]
+
+    apiKey.flatMap { key =>
+      OpenAI.make[IO](apiKey = key.apiKey).use { service =>
+        service
+          .chatCompletion(
+            List(
+              Message(
+                Roles.User,
+                "Give the date and time and then Write a loremlisum text of 100 words"
+              )
+            )
+          )
+          .evalMap(response => IO.print(response.getResponseMessage))
+          .compile
+          .drain
+      }
+    }
+
+  }
+}
+```

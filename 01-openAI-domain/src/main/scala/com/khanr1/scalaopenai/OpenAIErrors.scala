@@ -16,6 +16,7 @@ enum OpenAIErrors {
   case PermissionDeniedError
   case RateLimitError
   case UnprocessableEntityError
+
 }
 
 object OpenAIErrors:

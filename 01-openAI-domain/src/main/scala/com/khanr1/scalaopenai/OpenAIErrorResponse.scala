@@ -11,13 +11,16 @@ package com.khanr1.scalaopenai
   * @param code
   *   provides more detailed information about the type of error encountered
   */
-final case class Error(
+final case class OpenAIErrorResponse(
     message: String,
     `type`: OpenAIErrors,
     param: Option[String],
     code: Option[String]
-)
+) extends OpenAIResponse:
+  override def getResponseMessage: String =
+    s"OpenAI Error: $message. Type: ${`type`}, Param: ${param.getOrElse("None")}, Code: ${code.getOrElse("None")}"
 
-object Error:
-  given Encoder[Error] = Encoder.derived
-  given Decoder[Error] = Decoder.derived
+object OpenAIErrorResponse:
+  given Show[OpenAIErrorResponse] = Show.fromToString
+  given Encoder[OpenAIErrorResponse] = Encoder.derived
+  given Decoder[OpenAIErrorResponse] = Decoder.derived
