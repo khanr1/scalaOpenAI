@@ -5,6 +5,10 @@ ThisBuild / version := "0.0.1-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.3"
 ThisBuild / organization := "com.khanr1"
 
+githubOwner := "khanr1"
+githubRepository := "scalaOpenAI"
+githubTokenSource := TokenSource.GitConfig("github.token")
+
 lazy val `scalaopenai` =
   project
     .in(file("."))
