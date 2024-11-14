@@ -1,13 +1,9 @@
 import Dependencies.*
 import MyUtils.*
 
-ThisBuild / version := "0.0.1-SNAPSHOT"
+ThisBuild / version := "0.0.2-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.3"
-ThisBuild / organization := "com.khanr1"
-
-githubOwner := "khanr1"
-githubRepository := "scalaOpenAI"
-githubTokenSource := TokenSource.GitConfig("github.token")
+ThisBuild / organization := " io.github.khanr1"
 
 lazy val `scalaopenai` =
   project
