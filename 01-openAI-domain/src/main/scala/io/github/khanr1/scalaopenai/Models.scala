@@ -14,8 +14,8 @@ object Models:
 
   // Map associating models with their string representation.
   private val modelLookUp: Map[Models, String] = Map(
-    GPT4o -> "gpt-4o-2024-05-13",
-    GPT4omin -> "gpt-4o-mini-2024-05-13"
+    GPT4o -> "gpt-4o-2024-11-20",
+    GPT4omin -> "gpt-4o-mini-2024-07-18"
   )
 
   /** Provides a `Show` instance for `Models`, allowing conversion to a string.

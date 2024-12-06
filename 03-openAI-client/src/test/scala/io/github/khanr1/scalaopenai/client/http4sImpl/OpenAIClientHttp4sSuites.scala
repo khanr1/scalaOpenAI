@@ -45,7 +45,7 @@ object OpenAIClientHttp4sSuites extends SimpleIOSuite with Checkers {
         Client.fromHttpApp(routes(Ok(chatResp.asJson)))
       OpenAIClientHttp4s
         .make(client1(response), "test")
-        .chatCompletion(request.messages)
+        .chatCompletion(messages = request.messages)
         .compile
         .toList
         .map(_.headOption)
@@ -59,7 +59,7 @@ object OpenAIClientHttp4sSuites extends SimpleIOSuite with Checkers {
         Client.fromHttpApp(routes(BadRequest(chatResp.asJson)))
       OpenAIClientHttp4s
         .make(client(response), "test")
-        .chatCompletion(request.messages)
+        .chatCompletion(messages = request.messages)
         .compile
         .toList
         .map(_.headOption)

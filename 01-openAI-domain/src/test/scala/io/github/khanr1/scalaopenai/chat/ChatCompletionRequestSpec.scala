@@ -20,14 +20,14 @@ object ChatCompletionRequestSpec extends SimpleIOSuite {
     val json = request.asJson.noSpaces
     expect.same(
       json,
-      """{"model":"gpt-4o-2024-05-13","messages":[{"role":"user","content":"Hello","name":null}],"temperature":1.0,"stream":false}"""
+      """{"model":"gpt-4o-2024-11-20","messages":[{"role":"user","content":"Hello","name":null}],"temperature":1.0,"stream":false}"""
     )
   }
 
   pureTest("should decode valid JSON to ChatCompletionRequest") {
     val json = """
       {
-        "model": "gpt-4o-2024-05-13",
+        "model": "gpt-4o-2024-11-20",
         "messages": [{"role": "user", "content": "Hello"}],
         "temperature": 1.0,
         "stream": false

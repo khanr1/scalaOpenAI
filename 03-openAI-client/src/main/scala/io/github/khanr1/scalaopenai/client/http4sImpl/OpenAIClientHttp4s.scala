@@ -38,7 +38,10 @@ object OpenAIClientHttp4s {
     new OpenAIClient[F] with Http4sClientDsl[F] {
 
       private val chatUri: Uri = Uri.unsafeFromString("https://api.openai.com/v1/chat/completions")
-      override def chatCompletion(messages: List[Message]): Stream[F, OpenAIResponse] =
+      override def chatCompletion(
+          model: Models = Models.GPT4omin,
+          messages: List[Message]
+      ): Stream[F, OpenAIResponse] =
         val requestBody = ChatCompletionRequest(
           Models.GPT4o,
           messages,

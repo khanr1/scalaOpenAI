@@ -3,14 +3,20 @@ import MyUtils.*
 
 ThisBuild / version := "0.0.2-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.3"
-ThisBuild / organization := " io.github.khanr1"
+ThisBuild / organization := "io.github.khanr1"
+
+ThisBuild / publishTo := Some(
+  Resolver.file("Local Ivy", new File(Path.userHome.absolutePath + "/.ivy2/local"))
+)
+ThisBuild / publishMavenStyle := true
 
 lazy val `scalaopenai` =
   project
     .in(file("."))
     .aggregate(domain, core, client, main)
+    .dependsOn(domain, core, client, main)
     .settings(
-      name := "ScalaOpenAI"
+      name := "scalaopenai"
     )
 
 lazy val domain =
@@ -18,6 +24,7 @@ lazy val domain =
     .in(file("01-openAI-domain"))
     .settings(testDependencies)
     .settings(
+      name := "scalaopenai-domain",
       libraryDependencies ++= Seq(
         Libraries.cats.value,
         Libraries.catsEffect.value,
@@ -31,6 +38,7 @@ lazy val core =
     .in(file("02-openAI-core"))
     .dependsOn(domain % Cctt)
     .settings(
+      name := "scalaopenai-core",
       libraryDependencies ++= Seq(
         Libraries.htt4sEmberClient.value,
         Libraries.circeParser.value
@@ -41,6 +49,7 @@ lazy val client =
     .in(file("03-openAI-client"))
     .dependsOn(core % Cctt)
     .settings(
+      name := "scalaopenai-client",
       libraryDependencies ++= Seq(
         Libraries.htt4sCirce.value,
         Libraries.htt4sDsl.value,
@@ -54,6 +63,7 @@ lazy val main =
     .in(file("04-openAI-main"))
     .dependsOn(client % Cctt)
     .settings(
+      name := "scalaopenai-main",
       libraryDependencies ++= Seq(
         Libraries.ciris
       )

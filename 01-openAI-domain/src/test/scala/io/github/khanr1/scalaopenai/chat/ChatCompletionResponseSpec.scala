@@ -15,7 +15,7 @@ object ChatCompletionResponseSpec extends SimpleIOSuite {
         "id": "response-123",
         "object": "chat.completion",
         "created": 1623712932,
-        "model": "gpt-4o-2024-05-13",
+        "model": "gpt-4o-2024-11-20",
         "choices": [
           {
             "index": 0,

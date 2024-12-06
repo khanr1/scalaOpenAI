@@ -13,9 +13,10 @@ object Main extends IOApp.Simple {
 
     apiKey.flatMap { key =>
       OpenAI.make[IO](apiKey = key.apiKey).use { service =>
+        val start = System.nanoTime()
         service
           .chatCompletion(
-            List(
+            messages = List(
               Message(
                 Roles.User,
                 "Give the date and time and then Write a loremlisum text of 100 words"

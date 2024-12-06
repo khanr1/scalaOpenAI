@@ -1,5 +1,4 @@
-package io.github.khanr1
-package scalaopenai
+package io.github.khanr1.scalaopenai
 
 import chat.*
 
