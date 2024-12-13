@@ -69,6 +69,7 @@ def parseResponsePipe[F[_]: Concurrent, A: Decoder]: Pipe[F, String, A] = inStre
     // Remove the "data: " prefix from the strings
     .map(_.replace("data: ", ""))
     // Filter out empty lines or lines that indicate the stream is done
-    .filterNot(line => line.isEmpty || line == "[DONE]")
+    .filterNot(line => line.isEmpty)
+    .takeWhile(line => line != "[DONE]")
     // Attempt to decode each text line into a JSON object
     .flatMap(text => decodeText[F, A](text))

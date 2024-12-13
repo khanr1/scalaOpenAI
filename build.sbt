@@ -4,6 +4,7 @@ import MyUtils.*
 ThisBuild / version := "0.0.2-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.3"
 ThisBuild / organization := "io.github.khanr1"
+ThisBuild / crossScalaVersions := Seq("3.3.0", "2.12.18")
 
 ThisBuild / publishTo := Some(
   Resolver.file("Local Ivy", new File(Path.userHome.absolutePath + "/.ivy2/local"))
